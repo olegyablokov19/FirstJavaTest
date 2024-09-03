@@ -62,9 +62,16 @@ jobs:
           ./allure generate -c C:/artifacts/allure-result -o C:/_site --clean
           #./allure generate -c "C:/artifacts/allure-result" -o "_site" --clean
 
-      - name: Deploy to GitHub Pages
+      - name: Upload to GitHub Pages
         uses: actions/upload-pages-artifact@v3.0.1
         with:
           name: ompk
           path: C:/_site
           retention-days: 2
+          
+      - name: Deploy GitHub Pages site
+        uses: actions/deploy-pages@v4.0.5
+        with:
+          token: ${{ github.token }}
+          artifact_name: ompk
+          
