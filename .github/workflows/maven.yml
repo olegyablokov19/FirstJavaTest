@@ -58,7 +58,7 @@ jobs:
         run: |
           #cd C:\Users\runneradmin\scoop\apps\allure\current\bin
           Get-Location
-          .\allure generate -c allure-result -o _site --clean
+          allure generate -c allure-result -o _site --clean
 
       - name: Deploy to GitHub Pages
         uses: actions/upload-pages-artifact@v3.0.1
