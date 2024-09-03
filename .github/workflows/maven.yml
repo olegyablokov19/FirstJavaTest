@@ -25,8 +25,11 @@ jobs:
           java-version: '21'
           distribution: 'oracle'
 
+      - name: Install Scoop
+        run: iex "& {$(irm get.scoop.sh)}"
+
       - name: Install Allure
-        run: choco install allure
+        run: scoop install allure
 
       - name: Run tests
         shell: powershell
