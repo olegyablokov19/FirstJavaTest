@@ -63,10 +63,7 @@ jobs:
         run: |
           cd C:
           cd \Users\runneradmin\scoop\apps\allure\current\bin
-          Get-Location
           ./allure generate -c D:/a/FirstJavaTest/FirstJavaTest -o C:/_site --clean
-          #./allure generate -c C:/artifacts/allure-result -o C:/_site --clean
-          #./allure generate -c "C:/artifacts/allure-result" -o "_site" --clean
 
       - name: Upload to GitHub Pages
         uses: actions/upload-pages-artifact@v3.0.1
