@@ -1,0 +1,40 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Java CI with Maven
+
+on:
+  workflow_dispatch:
+
+jobs:
+  tests:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4.2.2
+        with:
+          java-version: '21'
+          distribution: 'oracle'
+
+      - name: Run tests
+        shell: powershell
+        run: |
+          # cd C:\actions-runner\_work\OMPK\OMPK        
+          # [Environment]::SetEnvironmentVariable('JAVA_HOME','C:\Program Files\Java\jdk-21')
+          mvn clean test
+        if: always()
+
+      - name: Generate an Allure report
+        shell: powershell
+        run: cd C:\allure\allure-2.27.0\bin;
+          .\allure generate "C:\actions-runner\_work\OMPK\OMPK\target\allure-results" --clean;
+        if: always()
