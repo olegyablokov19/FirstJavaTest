@@ -56,12 +56,12 @@ jobs:
       - name: Generate Allure Report
         shell: powershell
         run: |
-          #cd C:\Users\runneradmin\scoop\apps\allure\current\bin
+          cd C:\Users\runneradmin\scoop\apps\allure\current\bin
           Get-Location
-          #allure generate -c allure-result -o _site --clean
+          allure generate -c C:/artifacts/allure-result -o _site --clean
 
-      #- name: Deploy to GitHub Pages
-       # uses: actions/upload-pages-artifact@v3.0.1
-        #with:
-         # name: ompk
-          #retention-days: 2
+      - name: Deploy to GitHub Pages
+        uses: actions/upload-pages-artifact@v3.0.1
+        with:
+          name: ompk
+          retention-days: 2
