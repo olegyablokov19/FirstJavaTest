@@ -57,7 +57,8 @@ jobs:
         shell: powershell
         run: |
           cd C:\Users\runneradmin\scoop\apps\allure\current\bin
-          allure generate "C:/artifacts/allure-results" --clean
+          Get-Location
+          .\allure generate "C:/artifacts/allure-results" --clean
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
