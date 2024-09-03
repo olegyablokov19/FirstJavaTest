@@ -26,7 +26,11 @@ jobs:
           distribution: 'oracle'
 
       - name: Install Scoop
-        run: iex "& {$(irm get.scoop.sh)}"
+        run: |
+          Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+          $env:SCOOP='C:\Users\runneradmin\scoop'
+          $env:PATH="$env:SCOOP\shims;$env:PATH"
+          scoop install allure
 
       - name: Install Allure
         run: scoop install allure
