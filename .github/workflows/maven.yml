@@ -25,16 +25,12 @@ jobs:
           java-version: '21'
           distribution: 'oracle'
 
-      - name: Install Scoop
+      - name: Install Scoop and Allure
         run: |
           Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
           $env:SCOOP='C:\Users\runneradmin\scoop'
           $env:PATH="$env:SCOOP\shims;$env:PATH"
           scoop install allure
-
-      - name: Install Allure
-        shell: powershell
-        run: .\scoop install allure
 
       - name: Run tests
         shell: powershell
