@@ -11,6 +11,11 @@ name: Java CI with Maven
 on:
   workflow_dispatch:
 
+permissions: 
+  contents: read
+  pages: write
+  id-token: write
+  
 jobs:
   tests:
     runs-on: windows-latest
