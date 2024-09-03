@@ -56,7 +56,7 @@ jobs:
       - name: Generate Allure Report
         shell: powershell
         run: |
-          cd C:\Users\runneradmin\scoop\apps\allure\current\bin
+          #cd C:\Users\runneradmin\scoop\apps\allure\current\bin
           Get-Location
           .\allure generate -c allure-result -o _site --clean
 
