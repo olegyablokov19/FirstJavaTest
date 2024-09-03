@@ -33,7 +33,8 @@ jobs:
           scoop install allure
 
       - name: Install Allure
-        run: scoop install allure
+        shell: powershell
+        run: .\scoop install allure
 
       - name: Run tests
         shell: powershell
