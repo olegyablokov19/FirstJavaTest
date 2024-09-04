@@ -66,7 +66,9 @@ jobs:
       - name: Generate Allure Report
         shell: powershell
         run: |
-          cd C:\Users\runneradmin\scoop\apps\allure\current\bin
+          cd C:
+          cd \Users\runneradmin\scoop\apps\allure\current\bin
+          Get-Location
           allure generate "C:/artifacts/allure-results" -o C:/allure-report --clean
 
       - name: Upload to GitHub Pages
