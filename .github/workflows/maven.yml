@@ -69,7 +69,7 @@ jobs:
         #  allure generate -c -o C:/_site --clean
 
       - name: Allure report
-        uses: afiore/action-allure-report@v0.1.0
+        uses: yhrunyk/action-allure-generate-report@master
         with:
           results-dir: C:/artifacts
           report-dir: C:/allure-report
