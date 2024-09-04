@@ -69,10 +69,10 @@ jobs:
         #  allure generate -c -o C:/_site --clean
 
       - name: Allure report
-        uses: yhrunyk/action-allure-generate-report@master
+        uses: simple-elf/allure-report-action@v1.9
         with:
-          results-dir: C:/artifacts
-          report-dir: C:/allure-report
+          allure_results: C:/artifacts/allure-results
+          allure_report: C:/allure-report
 
       - name: Upload to GitHub Pages
         uses: actions/upload-pages-artifact@v3.0.1
