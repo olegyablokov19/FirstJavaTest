@@ -53,7 +53,7 @@ jobs:
           $env:SCOOP='C:\Users\runneradmin\scoop'
           $env:PATH="$env:SCOOP\shims;$env:PATH"
           scoop install allure
-          [Environment]::SetEnvironmentVariable('PATH', $env:SCOOP + '\\apps\\allure\\current\\bin;' + [Environment]::GetEnvironmentVariable('PATH', [EnvironmentVariableTarget]::Machine), [EnvironmentVariableTarget]::Machine)
+          [Environment]::SetEnvironmentVariable('PATH', $env:SCOOP + '\apps\allure\current\bin;' + [Environment]::GetEnvironmentVariable('PATH', [EnvironmentVariableTarget]::Machine), [EnvironmentVariableTarget]::Machine)
           Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
           refreshenv 
 
