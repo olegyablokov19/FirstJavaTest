@@ -67,11 +67,8 @@ jobs:
         shell: powershell
         run: |
           cd C:
-          cd /artifacts/allure-results
-          Get-Location
           cd \Users\runneradmin\scoop\apps\allure\current\bin
-          Get-Location
-          #.\allure generate "C:/artifacts/allure-results" -o C:/allure-report --clean
+          .\allure generate "C:/artifacts/allure-results" -o C:/allure-report --clean
 
       - name: Upload to GitHub Pages
         uses: actions/upload-pages-artifact@v3.0.1
