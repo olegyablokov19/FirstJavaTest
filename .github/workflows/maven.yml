@@ -43,6 +43,7 @@ jobs:
           path: target/allure-results
 
   allure-report:
+    needs: tests
     runs-on: windows-latest
 
     steps:
