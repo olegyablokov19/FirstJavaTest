@@ -30,16 +30,6 @@ jobs:
           java-version: '21'
           distribution: 'oracle'
 
-      - name: Install Scoop and Allure
-        run: |
-          Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
-          $env:SCOOP='C:\Users\runneradmin\scoop'
-          $env:PATH="$env:SCOOP\shims;$env:PATH"
-          scoop install allure
-          [Environment]::SetEnvironmentVariable('PATH', $env:SCOOP + '\\apps\\allure\\current\\bin;' + [Environment]::GetEnvironmentVariable('PATH', [EnvironmentVariableTarget]::Machine), [EnvironmentVariableTarget]::Machine)
-          Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
-          refreshenv
-
       - name: Run tests
         shell: powershell
         run: |
@@ -52,24 +42,42 @@ jobs:
           name: allure-results
           path: target/allure-results
 
+  allure-report:
+    runs-on: windows-latest
+
+    steps:
+      - name: Install Scoop and Allure
+        run: |
+          Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+          $env:SCOOP='C:\Users\runneradmin\scoop'
+          $env:PATH="$env:SCOOP\shims;$env:PATH"
+          scoop install allure
+          [Environment]::SetEnvironmentVariable('PATH', $env:SCOOP + '\\apps\\allure\\current\\bin;' + [Environment]::GetEnvironmentVariable('PATH', [EnvironmentVariableTarget]::Machine), [EnvironmentVariableTarget]::Machine)
+          Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
+          refreshenv 
+
       - name: Download results
         uses: actions/download-artifact@v4
         with:
           name: allure-results
           path: C:/artifacts
 
-      - name: Generate Allure Report
-        shell: powershell
-        run: |
-          cd C:
-          cd \Users\runneradmin\scoop\apps\allure\current\bin
-          ./allure generate -c D:/a/FirstJavaTest/FirstJavaTest -o C:/_site --clean
+      #- name: Generate Allure Report
+       # shell: powershell
+       # run: |
+        #  allure generate -c -o C:/_site --clean
+
+      - name: Allure report
+        uses: afiore/action-allure-report@v0.1.0
+        with:
+          results-dir: C:/artifacts
+          report-dir: C:/allure-report
 
       - name: Upload to GitHub Pages
         uses: actions/upload-pages-artifact@v3.0.1
         with:
           name: ompk
-          path: C:/_site
+          path: C:/allure-report
           retention-days: 2
           
       - name: Deploy GitHub Pages site
