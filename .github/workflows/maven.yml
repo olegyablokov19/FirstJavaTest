@@ -32,7 +32,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: config.ovpn
-          path: C:/artifacts/config.ovpn
+          path: C:/artifacts/
 #
 #      - name: Upload creds
 #        uses: actions/upload-artifact@v4
