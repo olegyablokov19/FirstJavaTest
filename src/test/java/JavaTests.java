@@ -18,6 +18,7 @@ public class JavaTests {
     public void setUp() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
+        driver.manage().deleteAllCookies();
 //        driver.manage().window().maximize();
     }
 
@@ -58,12 +59,8 @@ public class JavaTests {
 
     @Test
     public void goToSosiski() {
-        driver.get("http://notify_stage.local.sosiska.ru/");
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        driver.get("notify_stage.local.sosiska.ru");
+        Assertions.assertEquals("Система оповещений", driver.getTitle());
     }
 
     @AfterEach
