@@ -59,7 +59,7 @@ public class JavaTests {
 
     @Test
     public void goToSosiski() {
-        driver.get("notify_stage.local.sosiska.ru");
+        driver.get("http://notify_stage.local.sosiska.ru/");
         Assertions.assertEquals("Система оповещений", driver.getTitle());
     }
 
