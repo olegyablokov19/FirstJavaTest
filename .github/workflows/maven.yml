@@ -33,6 +33,9 @@ jobs:
         with:
           name: config.ovpn
           path: C:/artifacts/
+
+      - name: Clear DNS
+        run: ipconfig /flushdns
 #
 #      - name: Upload creds
 #        uses: actions/upload-artifact@v4
