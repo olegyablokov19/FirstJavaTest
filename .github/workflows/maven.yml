@@ -102,6 +102,9 @@ jobs:
           java-version: '21'
           distribution: 'oracle'
 
+      - name: Check Chrome version
+        run: which google-chrome
+
       - name: Upload .ovpn
         uses: actions/upload-artifact@v4
         with:
