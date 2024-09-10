@@ -1,24 +1,93 @@
-# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
-
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
+#name: Java CI with Maven
+#
+#on:
+#  workflow_dispatch:
+#
+#permissions:
+#  contents: read
+#  pages: write
+#  id-token: write
+#
+#jobs:
+#  tests:
+#    runs-on: windows-latest
+#
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v4
+#
+#      - name: Setup Java JDK
+#        uses: actions/setup-java@v4.2.2
+#        with:
+#          java-version: '21'
+#          distribution: 'oracle'
+#
+#      - name: Run tests
+#        shell: powershell
+#        run: |
+#          mvn clean test
+#        if: always()
+#
+#      - name: Upload results
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: allure-results
+#          path: target/allure-results
+#
+#  allure-report:
+#    needs: tests
+#    runs-on: windows-latest
+#
+#    steps:
+#      - name: Install Scoop and Allure
+#        run: |
+#          Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+#          $env:SCOOP='C:\Users\runneradmin\scoop'
+#          $env:PATH="$env:SCOOP\shims;$env:PATH"
+#          scoop install allure
+#          [Environment]::SetEnvironmentVariable('PATH', $env:SCOOP + '\apps\allure\current\bin;' + [Environment]::GetEnvironmentVariable('PATH', [EnvironmentVariableTarget]::Machine), [EnvironmentVariableTarget]::Machine)
+#          Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
+#          refreshenv
+#
+#      - name: Download results
+#        uses: actions/download-artifact@v4
+#        with:
+#          name: allure-results
+#          path: C:/artifacts/allure-results
+#
+#      - name: Generate Allure Report
+#        shell: powershell
+#        run: |
+#          cd C:
+#          cd \Users\runneradmin\scoop\apps\allure\current\bin
+#          .\allure generate "C:/artifacts/allure-results" -o C:/allure-report --clean
+#
+#      - name: Upload to GitHub Pages
+#        uses: actions/upload-pages-artifact@v3.0.1
+#        with:
+#          name: ompk
+#          path: C:/allure-report
+#          retention-days: 2
+#
+#      - name: Deploy GitHub Pages site
+#        uses: actions/deploy-pages@v4.0.5
+#        with:
+#          token: ${{ github.token }}
+#          artifact_name: ompk
 
 name: Java CI with Maven
 
 on:
   workflow_dispatch:
 
-permissions: 
+permissions:
   contents: read
   pages: write
   id-token: write
-  
+
 jobs:
   tests:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -30,56 +99,30 @@ jobs:
           java-version: '21'
           distribution: 'oracle'
 
-      - name: Run tests
-        shell: powershell
-        run: |
-          mvn clean test
-        if: always()
-
-      - name: Upload results
+      - name: Upload .ovpn
         uses: actions/upload-artifact@v4
         with:
-          name: allure-results
-          path: target/allure-results
+          name: config.ovpn
+          path: VPN/config.ovpn
 
-  allure-report:
-    needs: tests
-    runs-on: windows-latest
-
-    steps:
-      - name: Install Scoop and Allure
-        run: |
-          Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
-          $env:SCOOP='C:\Users\runneradmin\scoop'
-          $env:PATH="$env:SCOOP\shims;$env:PATH"
-          scoop install allure
-          [Environment]::SetEnvironmentVariable('PATH', $env:SCOOP + '\apps\allure\current\bin;' + [Environment]::GetEnvironmentVariable('PATH', [EnvironmentVariableTarget]::Machine), [EnvironmentVariableTarget]::Machine)
-          Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
-          refreshenv 
-
-      - name: Download results
+      - name: Download .ovpn
         uses: actions/download-artifact@v4
         with:
-          name: allure-results
-          path: C:/artifacts/allure-results
+           name: config.ovpn
+           path: /tmp
 
-      - name: Generate Allure Report
-        shell: powershell
+      - name: Install OpenVPN
         run: |
-          cd C:
-          cd \Users\runneradmin\scoop\apps\allure\current\bin
-          .\allure generate "C:/artifacts/allure-results" -o C:/allure-report --clean
+          sudo mkdir -p /etc/apt/keyrings && curl -fsSL https://packages.openvpn.net/packages-repo.gpg | sudo tee /etc/apt/keyrings/openvpn.asc
+          DISTRO=$(lsb_release -c | awk '{print $2}')
+          echo "deb [signed-by=/etc/apt/keyrings/openvpn.asc] https://packages.openvpn.net/openvpn3/debian $DISTRO main" | sudo tee /etc/apt/sources.list.d/openvpn-packages.list
+          sudo apt update
+          sudo apt install openvpn3
+          $ openvpn3 config-import --config /tmp/config.ovpn --name OMPK --persistent
+          $ openvpn3 config-acl --show --lock-down true --grant root --config OMPK
+          $ sudo systemctl enable --now openvpn3-session@OMPK.service
 
-      - name: Upload to GitHub Pages
-        uses: actions/upload-pages-artifact@v3.0.1
-        with:
-          name: ompk
-          path: C:/allure-report
-          retention-days: 2
-          
-      - name: Deploy GitHub Pages site
-        uses: actions/deploy-pages@v4.0.5
-        with:
-          token: ${{ github.token }}
-          artifact_name: ompk
-          
+      - name: Run tests
+        run: |
+              mvn clean test
+        if: always()
