@@ -137,7 +137,7 @@ jobs:
           openvpn3 config-acl --show --lock-down true --grant root --config CloudConnexa
           openvpn3 session-start --config /tmp/config.ovpn
           openvpn3 config-import --config /tmp/config.ovpn
-          openvpn3 session-start --config /tmp/config.ovpn --auth-user-pass /tmp/vpn_credentials.txt
+          openvpn3 session-start --config /tmp/config.ovpn
 
       - name: Run tests
         run: |
