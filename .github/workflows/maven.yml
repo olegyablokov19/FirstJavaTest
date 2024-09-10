@@ -59,7 +59,7 @@ jobs:
         run: |
           $filePath = "C:\Program Files\OpenVPN\bin\openvpn.exe"
           if (Test-Path $filePath) { Write-Host "File exists." } else { Write-Host "File does not exist." }
-          "C:\Program Files\OpenVPN\bin\openvpn.exe" --config C:/artifacts/config.ovpn
+          "C:\Program Files\OpenVPN\bin\openvpn.exe" --config C:/artifacts/config.ovpn --daemon
 
       - name: Run tests
         shell: powershell
