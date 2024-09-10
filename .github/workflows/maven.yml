@@ -67,7 +67,7 @@ jobs:
 
       - name: Wait for VPN connection
         run: |
-          timeout /t 10
+          Start-Sleep -Seconds 10
 
       - name: Run tests
         shell: powershell
