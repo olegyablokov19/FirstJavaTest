@@ -127,7 +127,7 @@ jobs:
           openvpn3 session-start --config /tmp/config.ovpn
           openvpn3 config-import --config /tmp/config.ovpn
           openvpn3 session-start --config /tmp/config.ovpn
-      #          openvpn3 session-start --config /tmp/config.ovpn
+      #   openvpn3 session-start --config /tmp/config.ovpn
 
       - name: Run tests
         run: |
