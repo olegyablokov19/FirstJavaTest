@@ -36,18 +36,18 @@ jobs:
 
       - name: Clear DNS
         run: ipconfig /flushdns
-#
-#      - name: Upload creds
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: vpn_credentials.txt
-#          path: VPN/vpn_credentials.txt
-#
-#      - name: Download creds
-#        uses: actions/download-artifact@v4
-#        with:
-#          name: vpn_credentials.txt
-#          path: C:/artifacts/
+
+      - name: Upload creds
+        uses: actions/upload-artifact@v4
+        with:
+          name: vpn_credentials.txt
+          path: VPN/vpn_credentials.txt
+
+      - name: Download creds
+        uses: actions/download-artifact@v4
+        with:
+          name: vpn_credentials.txt
+          path: C:/artifacts/
 
       - name: Download OpenVPN Installer
         run: |
