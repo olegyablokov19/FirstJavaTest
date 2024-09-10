@@ -116,8 +116,8 @@ jobs:
 
       - name: Install OpenVPN
         run: |
-          echo "${{ secrets.OPENVPN_USERNAME }}" > auth.txt
-          echo "${{ secrets.OPENVPN_PASSWORD }}" >> auth.txt
+          echo "${{ secrets.OPENVPN_USERNAME }}" > /tmp/auth.txt
+          echo "${{ secrets.OPENVPN_PASSWORD }}" >> /tmp/auth.txt
           chmod 600 auth.txt
           sudo mkdir -p /etc/apt/keyrings && curl -fsSL https://packages.openvpn.net/packages-repo.gpg | sudo tee /etc/apt/keyrings/openvpn.asc
           DISTRO=$(lsb_release -c | awk '{print $2}')
