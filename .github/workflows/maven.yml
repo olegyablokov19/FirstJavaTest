@@ -63,7 +63,7 @@ jobs:
       - name: Connect to OpenVPN
         shell: powershell
         run: |
-          C:\"Program Files"\OpenVPN\bin\openvpn.exe --config C:\artifacts\config.ovpn
+          Start-Process -FilePath "C:\"Program Files"\OpenVPN\bin\openvpn.exe" -ArgumentList "--config C:\artifacts\config.ovpn" -NoNewWindow -PassThru
 
       - name: Wait for VPN connection
         run: |
