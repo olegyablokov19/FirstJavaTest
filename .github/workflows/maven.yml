@@ -26,25 +26,25 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: config.ovpn
-          path: VPN/vpn_credentials.txt
+          path: VPN/config.ovpn
 
       - name: Download .ovpn
         uses: actions/download-artifact@v4
         with:
           name: config.ovpn
           path: C:/artifacts/config.ovpn
-
-      - name: Upload creds
-        uses: actions/upload-artifact@v4
-        with:
-          name: vpn_credentials.txt
-          path: VPN/vpn_credentials.txt
-
-      - name: Download creds
-        uses: actions/download-artifact@v4
-        with:
-          name: vpn_credentials.txt
-          path: C:/artifacts/
+#
+#      - name: Upload creds
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: vpn_credentials.txt
+#          path: VPN/vpn_credentials.txt
+#
+#      - name: Download creds
+#        uses: actions/download-artifact@v4
+#        with:
+#          name: vpn_credentials.txt
+#          path: C:/artifacts/
 
       - name: Download OpenVPN Installer
         run: |
