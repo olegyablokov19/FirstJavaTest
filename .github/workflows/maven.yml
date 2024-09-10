@@ -118,9 +118,9 @@ jobs:
           echo "deb [signed-by=/etc/apt/keyrings/openvpn.asc] https://packages.openvpn.net/openvpn3/debian $DISTRO main" | sudo tee /etc/apt/sources.list.d/openvpn-packages.list
           sudo apt update
           sudo apt install openvpn3
-          $ openvpn3 config-import --config /tmp/config.ovpn --name OMPK --persistent
-          $ openvpn3 config-acl --show --lock-down true --grant root --config OMPK
-          $ sudo systemctl enable --now openvpn3-session@OMPK.service
+          openvpn3 config-import --config /tmp/config.ovpn --name CloudConnexa --persistent
+          openvpn3 config-acl --show --lock-down true --grant root --config CloudConnexa
+          sudo systemctl enable --now openvpn3-session@CloudConnexa.service
 
       - name: Run tests
         run: |
