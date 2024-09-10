@@ -75,7 +75,7 @@
 #          token: ${{ github.token }}
 #          artifact_name: ompk
 
-name: Java CI with Maven
+name: Linux VPN
 
 on:
   workflow_dispatch:
