@@ -63,7 +63,7 @@ jobs:
       - name: Connect to OpenVPN
         shell: powershell
         run: |
-          C:\"Program Files"\OpenVPN\bin\openvpn.exe --config C:\artifacts\config.ovpn --daemon
+          C:\"Program Files"\OpenVPN\bin\openvpn.exe --config C:\artifacts\config.ovpn
 
       - name: Wait for VPN connection
         run: |
