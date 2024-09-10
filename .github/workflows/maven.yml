@@ -116,6 +116,9 @@ jobs:
 
       - name: Install OpenVPN
         run: |
+          echo "${{ secrets.OPENVPN_USERNAME }}" > auth.txt
+          echo "${{ secrets.OPENVPN_PASSWORD }}" >> auth.txt
+          chmod 600 auth.txt
           sudo mkdir -p /etc/apt/keyrings && curl -fsSL https://packages.openvpn.net/packages-repo.gpg | sudo tee /etc/apt/keyrings/openvpn.asc
           DISTRO=$(lsb_release -c | awk '{print $2}')
           echo "deb [signed-by=/etc/apt/keyrings/openvpn.asc] https://packages.openvpn.net/openvpn3/debian $DISTRO main" | sudo tee /etc/apt/sources.list.d/openvpn-packages.list
@@ -125,7 +128,7 @@ jobs:
           openvpn3 config-acl --show --lock-down true --grant root --config CloudConnexa
           openvpn3 session-start --config /tmp/config.ovpn
           openvpn3 config-import --config /tmp/config.ovpn
-          openvpn3 session-start --config /tmp/config.ovpn
+          openvpn3 session-start --config /tmp/config.ovpn --auth-user-pass auth.txt
 
       - name: Run tests
         run: |
