@@ -32,7 +32,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: config.ovpn
-          path: C:/artifacts/
+          path: C:/artifacts/config.ovpn
 
       - name: Upload creds
         uses: actions/upload-artifact@v4
@@ -46,20 +46,28 @@ jobs:
           name: vpn_credentials.txt
           path: C:/artifacts/
 
-      - name: Download OpenVPN installer
+      - name: Download OpenVPN Installer
         run: |
-          curl -L -o openvpn-install.exe https://swupdate.openvpn.org/community/releases/OpenVPN-2.6.12-I001-amd64.msi    
+          Invoke-WebRequest -Uri "https://swupdate.openvpn.org/community/releases/OpenVPN-2.6.12-I001-amd64.msi" -OutFile "OpenVPN.msi"    
 
       - name: Install OpenVPN
         run: |
-          msiexec /i openvpn-install.exe /quiet /qn /norestart
+          Start-Process msiexec.exe -ArgumentList '/i OpenVPN.msi /quiet' -Wait
+
+      - name: Add OpenVPN to Path
+        shell: powershell
+        run: |
+          $env:Path += ";C:\Program Files\OpenVPN\bin"
+          [Environment]::SetEnvironmentVariable('Path', $env:Path, 'Machine')    
 
       - name: Connect to OpenVPN
         shell: powershell
         run: |
-          $filePath = "C:\Program Files\OpenVPN\bin\openvpn.exe"
-          if (Test-Path $filePath) { Write-Host "File exists." } else { Write-Host "File does not exist." }
-          "C:\Program Files\OpenVPN\bin\openvpn.exe" --config C:/artifacts/config.ovpn --daemon
+          C:\"Program Files"\OpenVPN\bin\openvpn.exe --config C:\artifacts\config.ovpn --daemon
+
+      - name: Wait for VPN connection
+        run: |
+          timeout /t 10
 
       - name: Run tests
         shell: powershell
